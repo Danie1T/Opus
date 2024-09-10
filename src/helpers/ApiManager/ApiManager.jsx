@@ -2,9 +2,10 @@ import ENDPOINTS from "./Endpoints";
 import ApiMethods from "./ApiMethods";
 
 class ApiManager {
-    static getUserId = () => {
+    static getUserId = async () => {
         const url = ENDPOINTS.GET_USER_ID()
-        return ApiMethods.get(url)
+        const idObject = await ApiMethods.get(url)
+        return idObject.id
     }
 
     static createPlaylist = (userId, data) => {
@@ -16,4 +17,11 @@ class ApiManager {
         const url = ENDPOINTS.GET_PLAYLISTS(userId, offset)
         return ApiMethods.get(url)
     }
+
+    static getPlaylistSongs = (playlistId, offset) => {
+        const url = ENDPOINTS.GET_PLAYLIST_SONGS(playlistId, offset)
+        return ApiMethods.get(url)
+    }
 }
+
+export default ApiManager

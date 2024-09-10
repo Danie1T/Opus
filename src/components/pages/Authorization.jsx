@@ -9,9 +9,9 @@ const Authorization = () => {
     const authorize = async () => {
       try {
         await ApiMethods.getAccessToken()
-        navigate("/Playlists")
+        navigate("/start")
       } catch {
-        navigate("/Error")
+        navigate("/error")
       }
     }
 

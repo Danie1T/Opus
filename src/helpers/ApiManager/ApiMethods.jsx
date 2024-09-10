@@ -18,7 +18,7 @@ const getHeaders = (accessTokenRequired, accessToken=null) => {
 }
 
 class ApiMethods {
-    static accessToken = null
+    static accessToken = localStorage.getItem('accessToken');
 
     static getCodeFromURL = () => {
         const urlParams = new URLSearchParams(window.location.search)
@@ -26,6 +26,7 @@ class ApiMethods {
     }
 
     static async getAccessToken() {
+        console.log(this.accessToken)
         const code = this.getCodeFromURL()
         try {
             const response = await fetch(ENDPOINTS.GET_ACCESS_TOKEN(), {
@@ -41,6 +42,7 @@ class ApiMethods {
         if (response.status === 200) {
             const data = await response.json();
             this.accessToken = data.access_token;
+            localStorage.setItem('accessToken', this.accessToken);
             return this.accessToken;
         } else {
             throw new Error(`Error: ${response.status}`);
@@ -54,7 +56,7 @@ class ApiMethods {
 
     static async apiRequest(method, url, body={}, accessTokenRequired=true) {
         try {
-            if (accessTokenRequired && !token) {
+            if (accessTokenRequired && !this.accessToken) {
                 await this.getAccessToken()
             }
             const response = await fetch(url, {method, headers: getHeaders(accessTokenRequired, this.accessToken), body: method !== 'GET' ? JSON.stringify(body) : undefined })
