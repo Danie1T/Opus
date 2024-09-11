@@ -13,6 +13,8 @@ const Songs = () => {
   const [playlistSongs, setPlaylistSongs] = useState([])
   const [totalSongs, setTotalSongs] = useState(0)
   const [songOffset, setSongOffset] = useState(0)
+  const [selectedSongs, setSelectedSongs] = useState([])
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
   const handleOpen = (index) => setOpenIndex(index);
   const handleClose = () => {
@@ -20,6 +22,7 @@ const Songs = () => {
     setSelectedPlaylist(null)
     setPlaylistSongs([])
     setTotalSongs(0)
+    setSelectedSongs([])
   }
 
   useEffect(() => {
@@ -40,13 +43,31 @@ const Songs = () => {
       const playlistSongsReturn = await ApiManager.getPlaylistSongs(playlistId, songOffset)
       setTotalSongs(playlistSongsReturn.total)
       setPlaylistSongs(playlistSongs => [...playlistSongs, ...playlistSongsReturn.items] || [])
-      console.log(playlistSongs)
     }
 
     if (selectedPlaylist) {
       getPlaylistSongs()
     }
   }, [selectedPlaylist, songOffset])
+
+  useEffect(() => {
+    console.log("Selected Songs:", selectedSongs);
+    if (selectedSongs.length >= 3) {
+      setButtonDisabled(false)
+    }  else {
+      setButtonDisabled(true)
+    }
+  }, [selectedSongs]);
+
+  const handleSongSelected = (song) => {
+    if (selectedSongs.includes(song)) {
+      setSelectedSongs(selectedSongs => selectedSongs.filter(prevSongs => prevSongs!== song))
+    } else {
+      if (selectedSongs.length < 5) {
+        setSelectedSongs(selectedSongs => [...selectedSongs, song])
+      }
+    }
+  }
 
   return (
     <div>
@@ -71,7 +92,6 @@ const Songs = () => {
                   <Box sx={{
                       position: 'absolute',
                       top: '50%',
-                      bottom: '50%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
                       width: "60vw",
@@ -79,6 +99,7 @@ const Songs = () => {
                       border: '2px solid #000',
                       boxShadow: 24,
                       p: 4,
+                      overflowY: 'auto'
                   }}>
                     {playlist.images && playlist.images.length > 0 ? (
                       <img
@@ -92,15 +113,26 @@ const Songs = () => {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                       {playlist.name}
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                      Modal content
-                    </Typography>
                     {playlistSongs.map((song, index) => (
-                      <div>{song.track.name}</div>
+                      <Typography key={index} style={{cursor:'pointer'}} onClick={() => { handleSongSelected(song) }}>{song.track.name}</Typography>
                     ))}
                     {songOffset + 50 < totalSongs && (
-                      <Button onClick={() => setSongOffset(playlistOffset + 50)}>Load More</Button>
+                      <Button onClick={() => setSongOffset(songOffset + 50)}>Load More</Button>
                     )}
+                    <Link key={index} to = "/songs" state={selectedSongs}>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          '&.Mui-disabled': { 
+                            backgroundColor: 'gray',
+                            color: 'white',
+                          },
+                        }}
+                        disabled={buttonDisabled}
+                      >
+                        GO!
+                      </Button>
+                    </Link>
                   </Box>
                 </Modal>
             </div>

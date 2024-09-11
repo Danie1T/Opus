@@ -22,6 +22,11 @@ class ApiManager {
         const url = ENDPOINTS.GET_PLAYLIST_SONGS(playlistId, offset)
         return ApiMethods.get(url)
     }
+
+    static getRecommendationsFromTracks = (tracks) => {
+        const url = ENDPOINTS.GET_RECOMMENDATIONS_FROM_TRACKS(tracks)
+        return ApiMethods.get(url)
+    }
 }
 
 export default ApiManager

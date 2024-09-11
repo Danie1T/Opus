@@ -10,7 +10,8 @@ const ENDPOINTS = {
     GET_USER_ID: () => `/api/me`,
     CREATE_PLAYLIST: (userId) => `/api/users/${userId}/playlists`,
     GET_PLAYLISTS: (userId, offset) => `/api/users/${userId}/playlists?limit=50&offset=${offset}`,
-    GET_PLAYLIST_SONGS: (playlistId, offset) => `/api/playlists/${playlistId}/tracks?limit=50&offset=${offset}`
+    GET_PLAYLIST_SONGS: (playlistId, offset) => `/api/playlists/${playlistId}/tracks?limit=50&offset=${offset}`,
+    GET_RECOMMENDATIONS_FROM_TRACKS: (tracks) => `/api/recommendations?limit=100&seed_tracks=${tracks}`
 }
 
 export default ENDPOINTS
