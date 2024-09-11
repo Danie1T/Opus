@@ -1,5 +1,5 @@
 const CLIENT_ID = "9b0b5000eade409190d6ec8f7b1feb31"
-const REDIRECT_URI = "http://localhost:5173/callback"
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
 const RESPONSE_TYPE = "code"
 const SCOPE = ["playlist-read-private", "playlist-modify-public", "playlist-modify-private", "streaming", "user-read-email", "user-read-private"]
 const SCOPE_URL = SCOPE.join("%20")
