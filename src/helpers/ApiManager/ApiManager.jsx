@@ -4,6 +4,7 @@ import ApiMethods from "./ApiMethods";
 class ApiManager {
     static getUserId = async () => {
         const url = ENDPOINTS.GET_USER_ID()
+        console.log(url)
         const idObject = await ApiMethods.get(url)
         return idObject.id
     }

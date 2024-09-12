@@ -60,6 +60,7 @@ class ApiMethods {
                 await this.getAccessToken()
             }
             const response = await fetch(url, {method, headers: getHeaders(accessTokenRequired, this.accessToken), body: method !== 'GET' ? JSON.stringify(body) : undefined })
+            console.log(response)
 
             if (response.status === 200) {
                 return await response.json();

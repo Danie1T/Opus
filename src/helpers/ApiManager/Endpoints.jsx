@@ -7,11 +7,11 @@ const SCOPE_URL = SCOPE.join("%20")
 const ENDPOINTS = {
     AUTHORIZATION: () => `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE_URL}`,
     GET_ACCESS_TOKEN: () => `https://accounts.spotify.com/api/token`,
-    GET_USER_ID: () => `/api/me`,
-    CREATE_PLAYLIST: (userId) => `/api/users/${userId}/playlists`,
-    GET_PLAYLISTS: (userId, offset) => `/api/users/${userId}/playlists?limit=50&offset=${offset}`,
-    GET_PLAYLIST_SONGS: (playlistId, offset) => `/api/playlists/${playlistId}/tracks?limit=50&offset=${offset}`,
-    GET_RECOMMENDATIONS_FROM_TRACKS: (tracks) => `/api/recommendations?limit=100&seed_tracks=${tracks}`
+    GET_USER_ID: () => `https://api.spotify.com/v1/me`,
+    CREATE_PLAYLIST: (userId) => `https://api.spotify.com/v1/users/${userId}/playlists`,
+    GET_PLAYLISTS: (userId, offset) => `https://api.spotify.com/v1/users/${userId}/playlists?limit=50&offset=${offset}`,
+    GET_PLAYLIST_SONGS: (playlistId, offset) => `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50&offset=${offset}`,
+    GET_RECOMMENDATIONS_FROM_TRACKS: (tracks) => `https://api.spotify.com/v1/recommendations?limit=100&seed_tracks=${tracks}`
 }
 
 export default ENDPOINTS
