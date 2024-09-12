@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import App from './App.jsx'
+import Devices from './components/pages/Devices.jsx'
 import Start from './components/pages/Start.jsx'
 import Playlists from './components/pages/Playlists.jsx'
 import Authorization from './components/pages/Authorization.jsx'
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/callback",
     element: <Authorization />
+  },
+  {
+    path: "/devices",
+    element: <Devices />
   },
   {
     path: "/start",

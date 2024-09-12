@@ -12,6 +12,7 @@ const Songs = () => {
 
     const location = useLocation()
     const selectedSongs = location.state.selectedSongs
+    const device = localStorage.getItem("device")
 
     console.log(recommendedSongs)
     console.log(songCounter)
@@ -23,7 +24,7 @@ const Songs = () => {
     }
 
     const exitSongs = async () => {
-        await ApiManager.pausePlayback(location.state.selectedDevice.id)
+        await ApiManager.pausePlayback(device)
         navigate("/playlists")
     }
 
@@ -31,9 +32,13 @@ const Songs = () => {
         const getRecommendations = async () => {
             const formattedTracks = selectedSongs.map(song => song.track.id)
             const recommendedSongsReturn = await ApiManager.getRecommendationsFromTracks(formattedTracks)
-            setRecommendedSongs(recommendedSongsReturn)
-            if (recommendedSongsReturn.tracks && recommendedSongsReturn.tracks.length > 0) {
-                setActiveSong(recommendedSongsReturn.tracks[0])
+            const playlistTracks = location.state.playlistSongs.flatMap(addedSong => addedSong.track.id);
+            const filteredRecommendedSongsReturn = recommendedSongsReturn.tracks.filter(song => !playlistTracks.includes(song.id))
+            console.log(filteredRecommendedSongsReturn)
+            setRecommendedSongs(filteredRecommendedSongsReturn)
+            if (filteredRecommendedSongsReturn && filteredRecommendedSongsReturn.length > 0) {
+                console.log(filteredRecommendedSongsReturn)
+                setActiveSong(filteredRecommendedSongsReturn[0])
             }
         }
         getRecommendations()
@@ -42,7 +47,7 @@ const Songs = () => {
     useEffect(() => {
         console.log(location.state)
         if (activeSong && activeSong.uri) {
-            ApiManager.startPlayback(location.state.selectedDevice.id, {
+            ApiManager.startPlayback(device, {
                 "uris": [activeSong.uri],
                 "position_ms": 30000
             })
@@ -51,11 +56,11 @@ const Songs = () => {
 
     return (
         <div>
-            Suggesting based on the selected songs:
+            Suggesting additions to {location.state.selectedPlaylist.name} based on the selected songs:
             {selectedSongs.map((song, index) => (
                 <Typography key={index}>{song.track.name}</Typography>
             ))}
-            {recommendedSongs && recommendedSongs.tracks && recommendedSongs.tracks.length > 0 && songCounter < 98 && (
+            {recommendedSongs && recommendedSongs.length > 0 && songCounter < 98 && (
                 <div>
                     <Box sx={{
                       top: '50%',
@@ -75,7 +80,7 @@ const Songs = () => {
                             <Button variant='contained' onClick={() => {
                                 setSongCounter(prevCounter => {
                                     const newCounter = prevCounter + 1
-                                    setActiveSong(recommendedSongs.tracks[newCounter])
+                                    setActiveSong(recommendedSongs[newCounter])
                                     return newCounter
                                 })
                             }}>NO</Button>
@@ -88,7 +93,7 @@ const Songs = () => {
                                 setSongCounter(prevCounter => {
                                     addSong(activeSong, location.state.selectedPlaylist)
                                     const newCounter = prevCounter + 1
-                                    setActiveSong(recommendedSongs.tracks[newCounter])
+                                    setActiveSong(recommendedSongs[newCounter])
                                     return newCounter
                                 })
                             }}>YES</Button>

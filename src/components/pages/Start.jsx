@@ -1,4 +1,5 @@
 import React from 'react'
+import Devices from './Devices'
 
 import { Button, Stack } from '@mui/material'
 

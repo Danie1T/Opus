@@ -9,7 +9,7 @@ const Authorization = () => {
     const authorize = async () => {
       try {
         await ApiMethods.getAccessToken()
-        navigate("/start")
+        navigate("/devices")
       } catch {
         navigate("/error")
       }

@@ -15,8 +15,6 @@ const Songs = () => {
   const [songOffset, setSongOffset] = useState(0)
   const [selectedSongs, setSelectedSongs] = useState([])
   const [buttonDisabled, setButtonDisabled] = useState(true)
-  const [devices, setDevices] = useState([])
-  const [selectedDevice, setSelectedDevice] = useState(null)
 
   const handleOpen = (index) => setOpenIndex(index);
   const handleClose = () => {
@@ -36,14 +34,7 @@ const Songs = () => {
       setPlaylists(playlists => [...playlists, ...ownedPlaylists] || [])
     }
 
-    const getDevices = async () => {
-      const allDevices = await ApiManager.getDevices()
-      console.log("Fetched devices:", allDevices);
-      setDevices(allDevices)
-    }
-
     getPlaylists()
-    getDevices()
   }, [playlistOffset])
 
   useEffect(() => {
@@ -67,12 +58,6 @@ const Songs = () => {
       setButtonDisabled(true)
     }
   }, [selectedSongs]);
-
-  useEffect(() => {
-    if (Array.isArray(devices.devices) && devices.devices.length > 0) {
-      setSelectedDevice(devices.devices[0]);
-    }
-  }, [devices])
 
   const handleSongSelected = (song) => {
     if (selectedSongs.includes(song)) {
@@ -134,7 +119,7 @@ const Songs = () => {
                     {songOffset + 50 < totalSongs && (
                       <Button onClick={() => setSongOffset(songOffset + 50)}>Load More</Button>
                     )}
-                    <Link key={index} to = "/songs" state={{selectedPlaylist, selectedSongs, selectedDevice}}>
+                    <Link key={index} to = "/songs" state={{selectedPlaylist, selectedSongs, playlistSongs}}>
                       <Button
                         variant="contained"
                         sx={{
