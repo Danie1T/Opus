@@ -28,6 +28,26 @@ class ApiManager {
         const url = ENDPOINTS.GET_RECOMMENDATIONS_FROM_TRACKS(tracks)
         return ApiMethods.get(url)
     }
+
+    static addTrackToPlaylist = (playlistId, data) => {
+        const url = ENDPOINTS.ADD_TO_PLAYLIST(playlistId)
+        return ApiMethods.post(url, data)
+    }
+
+    static getDevices = () => {
+        const url = ENDPOINTS.GET_DEVICES()
+        return ApiMethods.get(url)
+    }
+
+    static startPlayback = (deviceId, data) => {
+        const url = ENDPOINTS.START_PLAYBACK(deviceId)
+        return ApiMethods.put(url, data)
+    }
+
+    static pausePlayback = (deviceId) => {
+        const url = ENDPOINTS.PAUSE_PLAYBACK(deviceId)
+        return ApiMethods.put(url, {})
+    }
 }
 
 export default ApiManager

@@ -26,7 +26,6 @@ class ApiMethods {
     }
 
     static async getAccessToken() {
-        console.log(this.accessToken)
         const code = this.getCodeFromURL()
         try {
             const response = await fetch(ENDPOINTS.GET_ACCESS_TOKEN(), {
@@ -62,8 +61,14 @@ class ApiMethods {
             const response = await fetch(url, {method, headers: getHeaders(accessTokenRequired, this.accessToken), body: method !== 'GET' ? JSON.stringify(body) : undefined })
             console.log(response)
 
-            if (response.status === 200) {
-                return await response.json();
+            if (response.status === 200 || response.status === 201) {
+                if (method === "PUT") {
+                    return {}
+                } else {
+                    return await response.json()
+                }
+            } else if (response.status === 204) {
+                return
             } else {
                 throw new Error(`Error: ${response.status}`);
             }
@@ -79,6 +84,10 @@ class ApiMethods {
 
     static post(url, data) {
         return this.apiRequest('POST', url, data)
+    }
+
+    static put(url, data) {
+        return this.apiRequest('PUT', url, data)
     }
 }
 
