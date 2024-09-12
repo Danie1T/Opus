@@ -74,10 +74,10 @@ const Songs = () => {
                         }}>
                             <Button variant='contained' onClick={() => {
                                 setSongCounter(prevCounter => {
-                                    const newCounter = prevCounter + 1;
-                                    setActiveSong(recommendedSongs.tracks[newCounter]);
-                                    return newCounter;
-                                });
+                                    const newCounter = prevCounter + 1
+                                    setActiveSong(recommendedSongs.tracks[newCounter])
+                                    return newCounter
+                                })
                             }}>NO</Button>
                             <img
                                 src={activeSong.album.images[0].url}
@@ -85,7 +85,12 @@ const Songs = () => {
                                 style={{ width: '30%', height: 'auto', borderRadius: 4 }}
                             />
                             <Button variant='contained' onClick={() => { 
-                                addSong(activeSong, location.state.selectedPlaylist), setSongCounter(songCounter + 1), setActiveSong(recommendedSongs.tracks[songCounter]) 
+                                setSongCounter(prevCounter => {
+                                    addSong(activeSong, location.state.selectedPlaylist)
+                                    const newCounter = prevCounter + 1
+                                    setActiveSong(recommendedSongs.tracks[newCounter])
+                                    return newCounter
+                                })
                             }}>YES</Button>
                         </Box>
                         {activeSong.name}
