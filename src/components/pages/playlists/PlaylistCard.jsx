@@ -7,7 +7,7 @@ import ApiManager from '../../../helpers/ApiManager/ApiManager';
 const PlaylistCard = ({playlist, song, index}) => {
     return (
         <div key={index}>
-            <Card sx={{ pt:2, pl: 2, pr:2, width: "10vw", bgcolor: "transparent", boxShadow: "none", ':hover': {boxShadow: 20, bgcolor: "#363535"} }}>
+            <Card sx={{ pt:2, pl: 2, pr:2, width: "10vw", bgcolor: "transparent", boxShadow: "none", cursor:"pointer", ':hover': {boxShadow: 20, bgcolor: "#363535"} }}>
                 {playlist.images && playlist.images.length > 0 ? (
                     <CardMedia 
                         component="img"
