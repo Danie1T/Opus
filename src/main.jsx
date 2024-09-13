@@ -6,9 +6,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App.jsx'
 import Devices from './components/pages/Devices.jsx'
 import Start from './components/pages/Start.jsx'
-import Playlists from './components/pages/Playlists.jsx'
+import Playlists from './components/pages/playlists/Playlists.jsx'
 import Authorization from './components/pages/Authorization.jsx'
-import Songs from './components/pages/Songs.jsx'
+import Songs from './components/pages/songs/Songs.jsx'
 import './index.css'
 
 const router = createBrowserRouter([

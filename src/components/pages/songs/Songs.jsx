@@ -1,7 +1,7 @@
 import React, { act, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Typography, Box } from '@mui/material'
-import ApiManager from '../../helpers/ApiManager/ApiManager'
+import ApiManager from '../../../helpers/ApiManager/ApiManager'
 
 const Songs = () => {
     const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Songs = () => {
 
     return (
         <div>
-            Suggesting additions to {location.state.selectedPlaylist.name} based on the selected songs:
+            Suggesting additions to {location.state.playlist.name} based on the selected songs:
             {selectedSongs.map((song, index) => (
                 <Typography key={index}>{song.track.name}</Typography>
             ))}

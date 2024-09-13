@@ -1,7 +1,7 @@
 import ENDPOINTS from "./Endpoints";
 
-const CLIENT_ID = "9b0b5000eade409190d6ec8f7b1feb31"
-const CLIENT_SECRET = "cf282ff3fa1747679cc9c40310950413"
+const CLIENT_ID = "a329475ef4934029979bb3f446b72fd6"
+const CLIENT_SECRET = "d4c2edba9e644516b44a656cc40a2dac"
 
 const getHeaders = (accessTokenRequired, accessToken=null) => {
     if (accessTokenRequired) {
@@ -28,6 +28,7 @@ class ApiMethods {
     static async getAccessToken() {
         const code = this.getCodeFromURL()
         try {
+            console.log(code)
             const response = await fetch(ENDPOINTS.GET_ACCESS_TOKEN(), {
                 method: "POST",
                 headers: getHeaders(false),
