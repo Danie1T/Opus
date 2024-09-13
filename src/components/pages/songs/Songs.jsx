@@ -1,7 +1,10 @@
 import React, { act, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Typography, Box } from '@mui/material'
+import { Button, Typography, Box, Fab } from '@mui/material'
+import { Check, Clear } from '@mui/icons-material'
 import ApiManager from '../../../helpers/ApiManager/ApiManager'
+
+import SongCard from './SongCard'
 
 const Songs = () => {
     const navigate = useNavigate();
@@ -56,51 +59,41 @@ const Songs = () => {
 
     return (
         <div>
-            Suggesting additions to {location.state.playlist.name} based on the selected songs:
+            <Typography>Suggesting additions to {location.state.playlist.name} based on the selected songs:</Typography>
             {selectedSongs.map((song, index) => (
                 <Typography key={index}>{song.track.name}</Typography>
             ))}
             {recommendedSongs && recommendedSongs.length > 0 && songCounter < 98 && (
                 <div>
-                    <Box sx={{
-                      top: '50%',
-                      left: '50%',
-                      width: "60vw",
-                      height: "60vh",
-                      display:"flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "column"
-                    }}>
                         <Box sx={{
                             display:"flex",
                             alignItems: "center",
                             justifyContent: "space-between",
+                            pt: 5,
+                            width: "65vw" 
                         }}>
-                            <Button variant='contained' onClick={() => {
+                            <Fab variant='contained' sx={{width: "12vw", height:"12vw", bgcolor:"#d42020", ':hover': {boxShadow: 20, bgcolor: "#e36d6d"}}} onClick={() => {
                                 setSongCounter(prevCounter => {
                                     const newCounter = prevCounter + 1
                                     setActiveSong(recommendedSongs[newCounter])
                                     return newCounter
                                 })
-                            }}>NO</Button>
-                            <img
-                                src={activeSong.album.images[0].url}
-                                alt={activeSong.name}
-                                style={{ width: '30%', height: 'auto', borderRadius: 4 }}
-                            />
-                            <Button variant='contained' onClick={() => { 
+                            }}>
+                                <Clear fontSize='large'/>
+                            </Fab>
+                            <SongCard activeSong={activeSong} playlist={location.state.selectedPlaylist}/>
+                            <Fab variant='contained' sx={{width: "12vw", height:"12vw", bgcolor:"#12db12", ':hover': {boxShadow: 20, bgcolor: "#70cf70"}}} onClick={() => { 
                                 setSongCounter(prevCounter => {
-                                    addSong(activeSong, location.state.selectedPlaylist)
+                                    addSong(activeSong, location.state.playlist)
                                     const newCounter = prevCounter + 1
                                     setActiveSong(recommendedSongs[newCounter])
                                     return newCounter
                                 })
-                            }}>YES</Button>
+                            }}>
+                                <Check fontSize='large'/>
+                            </Fab>
                         </Box>
-                        {activeSong.name}
-                    </Box>
-                    <Button onClick={() => exitSongs()} >Done</Button>
+                        <Button variant="contained" onClick={() => exitSongs()} >Done</Button>
                 </div>
             )}
         </div>
