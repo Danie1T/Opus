@@ -80,7 +80,7 @@ const PlaylistModal = ({playlist, open, onClose}) => {
                     />
                     ) : (
                         <img
-                            src="src/assets/empty_playlist.png"
+                            src="../../assets/empty_playlist.png"
                             alt={playlist.name}
                             style={{ width: '10%', height: 'auto', borderRadius: 4 }}
                         />
